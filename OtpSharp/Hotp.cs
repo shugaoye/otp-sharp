@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace OtpSharp
 {
     /// <summary>
     /// Calculate HMAC-One-Time-Passwords (HOTP) from a secret key
     /// </summary>
-    public class Hotp
+    public class Hotp : Otp
     {
         private readonly byte[] secretKey;
         public Hotp(byte[] secretKey)
@@ -23,7 +19,7 @@ namespace OtpSharp
         /// <returns>Hotp</returns>
         public int ComputeHotp(long counter)
         {
-            return OtpUtility.Digits(this.ComputeHotpDecimal(counter), 6); // all of the HOTP values are six digits long
+            return this.Digits(this.ComputeHotpDecimal(counter), 6); // all of the HOTP values are six digits long
         }
 
         /// <remarks>
@@ -33,8 +29,8 @@ namespace OtpSharp
         /// </remarks>
         internal long ComputeHotpDecimal(long counter)
         {
-            var hashData = OtpUtility.GetBigEndianBytes(counter);
-            return OtpUtility.CalculateOtp(this.secretKey, hashData, OtpHashMode.Sha1);
+            var hashData = this.GetBigEndianBytes(counter);
+            return this.CalculateOtp(this.secretKey, hashData, OtpHashMode.Sha1);
         }
     }
 }

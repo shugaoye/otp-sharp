@@ -7,12 +7,12 @@ namespace OtpSharp
     /// <remarks>
     /// https://tools.ietf.org/html/rfc4226
     /// </remarks>
-    internal static class OtpUtility
+    public abstract class Otp
     {
         /// <summary>
         /// Helper method that calculates OTPs
         /// </summary>
-        internal static long CalculateOtp(byte[] secretKey, byte[] data, OtpHashMode mode)
+        protected internal long CalculateOtp(byte[] secretKey, byte[] data, OtpHashMode mode)
         {
             var hmacHasher = CreateHmacHasher(secretKey, mode);
             byte[] hmacComputedHash = hmacHasher.ComputeHash(data);
@@ -26,7 +26,7 @@ namespace OtpSharp
         /// <summary>
         /// Create an HMAC object for the specified algorithm
         /// </summary>
-        internal static HMAC CreateHmacHasher(byte[] secretKey, OtpHashMode mode )
+        private HMAC CreateHmacHasher(byte[] secretKey, OtpHashMode mode )
         {
             switch (mode)
             {
@@ -43,7 +43,7 @@ namespace OtpSharp
         /// <summary>
         /// converts a long into a big endian byte array
         /// </summary>
-        internal static byte[] GetBigEndianBytes(long input)
+        protected internal byte[] GetBigEndianBytes(long input)
         {
             return BitConverter.GetBytes(input).Reverse().ToArray();
         }
@@ -51,7 +51,7 @@ namespace OtpSharp
         /// <summary>
         /// truncates a number down to the specified number of digits
         /// </summary>
-        internal static int Digits(long input, int digits)
+        protected internal int Digits(long input, int digits)
         {
             return ((int)input % (int)Math.Pow(10, digits));
         }

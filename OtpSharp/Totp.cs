@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OtpSharp
 {
     /// <summary>
     /// Calculate Timed-One-Time-Passwords (TOTP) from a secret key
     /// </summary>
-    public class Totp
+    public class Totp : Otp
     {
         /// <summary>
         /// The number of ticks as Measured at Midnight Jan 1st 1970;
@@ -38,10 +35,10 @@ namespace OtpSharp
         {
             var unixTimestamp = (timestamp.Ticks - unixEpochTicks) / ticksToSeconds;
             var timeSteps = unixTimestamp / (long)this.step;
-            var data = OtpUtility.GetBigEndianBytes(timeSteps);
+            var data = this.GetBigEndianBytes(timeSteps);
 
-            var otp = OtpUtility.CalculateOtp(this.secretKey, data, this.hashMode);
-            return OtpUtility.Digits(otp, 8);
+            var otp = this.CalculateOtp(this.secretKey, data, this.hashMode);
+            return this.Digits(otp, 8);
         }
     }
 }

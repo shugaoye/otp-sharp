@@ -5,7 +5,9 @@
   </TestList>
   <TestList name="Unit" id="925e9ca5-3a1b-41be-8ef0-f1050bf4322e" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
     <TestLinks>
-      <TestLink id="0107a75a-c523-e609-8d23-99927004a845" name="HotpAppendixDTests" storage="otpsharp.tests\bin\debug\otpsharp.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="f665f5f8-6b30-22b6-1b01-d22681ccebac" name="OtpAppendixDTests" storage="otpsharp.tests\bin\debug\otpsharp.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="dfa6f1c8-4617-fe1f-f1df-7372437ae069" name="TotpAppendixBTests" storage="otpsharp.tests\bin\debug\otpsharp.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="fe52ce48-0931-7c26-e3a3-0b7e86db4df8" name="HotpAppendixDTests" storage="otpsharp.tests\bin\debug\otpsharp.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     </TestLinks>
   </TestList>
 </TestLists>
