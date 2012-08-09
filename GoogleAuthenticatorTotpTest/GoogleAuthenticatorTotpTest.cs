@@ -24,12 +24,44 @@ namespace GoogleAuthenticatorTotpTest
 
         private void UpdateCode()
         {
-            this.labelTotp.Text = totp.ComputeTotp(DateTime.UtcNow).ToString().PadLeft(6, '0');
+            this.labelTotp.Text = totp.ComputeTotp().ToString().PadLeft(6, '0');
         }
 
         private void timerUpdate_Tick(object sender, EventArgs e)
         {
             this.UpdateCode();
+        }
+
+        private void buttonVerify_Click(object sender, EventArgs e)
+        {
+            Verify();
+        }
+
+        private void textBoxValue_TextChanged(object sender, EventArgs e)
+        {
+            this.tabPage2.BackColor = Color.White;
+        }
+
+        private void textBoxValue_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                this.Verify();
+        }
+
+        private void Verify()
+        {
+            var text = this.textBoxValue.Text;
+            this.textBoxValue.Text = string.Empty;
+            int value;
+            if (int.TryParse(text, out value))
+            {
+                long windowUsed;
+                bool result = totp.VerifyTotp(value, out windowUsed);
+                if (result)
+                    this.tabPage2.BackColor = Color.Green;
+                else
+                    this.tabPage2.BackColor = Color.Red;
+            }
         }
     }
 }

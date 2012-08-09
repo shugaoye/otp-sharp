@@ -10,6 +10,10 @@ namespace OtpSharp
     public class Hotp : Otp
     {
         private readonly byte[] secretKey;
+        /// <summary>
+        /// Create an HOTP instance
+        /// </summary>
+        /// <param name="secretKey">The secret key to use in HOTP calculations</param>
         public Hotp(byte[] secretKey)
         {
             this.secretKey = secretKey;
