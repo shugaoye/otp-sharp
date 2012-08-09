@@ -6,7 +6,7 @@ using System.Text;
 namespace OtpSharp
 {
     /// <summary>
-    /// Calculate Timd One Time Passwords from a secret key
+    /// Calculate Timed-One-Time-Passwords (TOTP) from a secret key
     /// </summary>
     public class Totp
     {
@@ -20,9 +20,13 @@ namespace OtpSharp
         const long ticksToSeconds = 10000000L;
 
         private readonly byte[] secretKey;
-        public Totp(byte[] secretKey)
+        private readonly int step;
+        private readonly OtpHashMode hashMode;
+        public Totp(byte[] secretKey, int step = 30, OtpHashMode mode = OtpHashMode.Sha1)
         {
             this.secretKey = secretKey;
+            this.step = step;
+            this.hashMode = mode;
         }
 
         /// <summary>
@@ -33,10 +37,10 @@ namespace OtpSharp
         public int ComputeTotp(DateTime timestamp)
         {
             var unixTimestamp = timestamp.Ticks - unixEpochTicks / ticksToSeconds;
-            var thirtySecondTimestamp = unixTimestamp / 30L;
-            var data = OtpUtility.GetBigEndianBytes(thirtySecondTimestamp);
+            var timeSteps = unixTimestamp / (long)this.step;
+            var data = OtpUtility.GetBigEndianBytes(timeSteps);
 
-            var otp = OtpUtility.CalculateOtp(this.secretKey, data);
+            var otp = OtpUtility.CalculateOtp(this.secretKey, data, this.hashMode);
             return OtpUtility.Digits(otp, 6);
         }
     }

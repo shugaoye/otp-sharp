@@ -6,7 +6,7 @@ using System.Text;
 namespace OtpSharp
 {
     /// <summary>
-    /// Calculate HMAC One Time Passwords from a secret key
+    /// Calculate HMAC-One-Time-Passwords (HOTP) from a secret key
     /// </summary>
     public class Hotp
     {
@@ -29,12 +29,12 @@ namespace OtpSharp
         /// <remarks>
         /// This method mainly exists for unit tests.
         /// The RFC defines a decimal value in the test table that is an
-        /// intermediate step to a final HOTP
+        /// intermediate step to a final HOTP value
         /// </remarks>
         internal long ComputeHotpDecimal(long counter)
         {
             var hashData = OtpUtility.GetBigEndianBytes(counter);
-            return OtpUtility.CalculateOtp(this.secretKey, hashData);
+            return OtpUtility.CalculateOtp(this.secretKey, hashData, OtpHashMode.Sha1);
         }
     }
 }

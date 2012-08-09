@@ -5,22 +5,36 @@ using System.Security.Cryptography;
 namespace OtpSharp
 {
     /// <remarks>
-    /// // https://tools.ietf.org/html/rfc4226
+    /// https://tools.ietf.org/html/rfc4226
     /// </remarks>
     internal static class OtpUtility
     {
         /// <summary>
         /// Helper method that calculates OTPs
         /// </summary>
-        internal static long CalculateOtp(byte[] secretKey, byte[] data)
+        internal static long CalculateOtp(byte[] secretKey, byte[] data, OtpHashMode mode)
         {
-            var hmacsha1 = new HMACSHA1(secretKey);
-            byte[] hmacComputedHash = hmacsha1.ComputeHash(data);
+            var hmacHasher = CreateHmacHasher(secretKey, mode);
+            byte[] hmacComputedHash = hmacHasher.ComputeHash(data);
             int offset = hmacComputedHash.Last() & 0x0F;
             return (hmacComputedHash[offset] & 0x7f) << 24
                 | (hmacComputedHash[offset + 1] & 0xff) << 16
                 | (hmacComputedHash[offset + 2] & 0xff) << 8
                 | (hmacComputedHash[offset + 3] & 0xff) % 1000000;
+        }
+
+        internal static HMAC CreateHmacHasher(byte[] secretKey, OtpHashMode mode )
+        {
+            switch (mode)
+            {
+                case OtpHashMode.Sha256:
+                    return new HMACSHA256(secretKey);
+                case OtpHashMode.Sha512:
+                    return new HMACSHA512(secretKey);
+                default:
+                case OtpHashMode.Sha1:
+                    return new HMACSHA1(secretKey);
+            }
         }
 
         /// <summary>
