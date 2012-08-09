@@ -36,12 +36,12 @@ namespace OtpSharp
         /// <returns>a TOTP value</returns>
         public int ComputeTotp(DateTime timestamp)
         {
-            var unixTimestamp = timestamp.Ticks - unixEpochTicks / ticksToSeconds;
+            var unixTimestamp = (timestamp.Ticks - unixEpochTicks) / ticksToSeconds;
             var timeSteps = unixTimestamp / (long)this.step;
             var data = OtpUtility.GetBigEndianBytes(timeSteps);
 
             var otp = OtpUtility.CalculateOtp(this.secretKey, data, this.hashMode);
-            return OtpUtility.Digits(otp, 6);
+            return OtpUtility.Digits(otp, 8);
         }
     }
 }

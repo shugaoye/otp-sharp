@@ -23,6 +23,9 @@ namespace OtpSharp
                 | (hmacComputedHash[offset + 3] & 0xff) % 1000000;
         }
 
+        /// <summary>
+        /// Create an HMAC object for the specified algorithm
+        /// </summary>
         internal static HMAC CreateHmacHasher(byte[] secretKey, OtpHashMode mode )
         {
             switch (mode)
