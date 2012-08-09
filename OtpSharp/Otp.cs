@@ -4,9 +4,9 @@ using System.Security.Cryptography;
 
 namespace OtpSharp
 {
-    internal class Otp
+    public class Otp
     {
-        public static int CalculateHotp(byte[] key, long counter)
+        public static long CalculateHotp(byte[] key, long counter)
         {
             var hmacsha1 = new HMACSHA1(key);
             var counterBytes = GetBigEndianBytes(counter);
