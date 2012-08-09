@@ -10,6 +10,7 @@ namespace OtpSharp.Tests
     /// </summary>
     /// <remarks>
     /// http://tools.ietf.org/html/rfc4226#appendix-D
+    /// http://tools.ietf.org/html/rfc6238#appendix-B
     /// </remarks>
     [TestClass]
     public class OtpTests
@@ -99,6 +100,9 @@ namespace OtpSharp.Tests
             }
         }
 
+        /// <summary>
+        /// Helper method to repeat the test key up to the number of bytes specified
+        /// </summary>
         private IEnumerable<byte> JoinKeys(int bytes)
         {
             int i = 0;

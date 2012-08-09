@@ -11,15 +11,15 @@ namespace OtpSharp
     public enum OtpHashMode
     {
         /// <summary>
-        /// Sha1 is used as the HMAC hasing algorithm
+        /// Sha1 is used as the HMAC hashing algorithm
         /// </summary>
         Sha1,
         /// <summary>
-        /// Sha256 is used as the HMAC hasing algorithm
+        /// Sha256 is used as the HMAC hashing algorithm
         /// </summary>
         Sha256,
         /// <summary>
-        /// Sha512 is used as the HMAC hasing algorithm
+        /// Sha512 is used as the HMAC hashing algorithm
         /// </summary>
         Sha512
     }

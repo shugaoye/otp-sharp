@@ -1,4 +1,7 @@
-﻿<!-- RFC 6238 Appendix B provides a table of test TOTP values -->
+﻿<!--
+RFC 6238 Appendix B provides a table of test TOTP values
+http://tools.ietf.org/html/rfc6238#appendix-B
+-->
 <Rows>
   <!--
   |      59     |  1970-01-01  | 0000000000000001 | 94287082 |  SHA1  |

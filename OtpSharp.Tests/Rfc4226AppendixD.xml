@@ -1,4 +1,7 @@
-﻿<!-- Test data from the test value table in RFC 4226 Appendix D-->
+﻿<!--
+Test data from the test value table in RFC 4226 Appendix D
+http://tools.ietf.org/html/rfc4226#appendix-D
+-->
 <Rows>
   <Row>
     <counter>0</counter>
