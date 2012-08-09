@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data;
-using System.Data.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
 
 namespace OtpSharp.Tests
 {
     /// <summary>
-    /// the RFC documentation provides test values
+    /// the RFC documentation provides a table of test values.  This class exercises all of those.
     /// </summary>
     /// <remarks>
     /// http://tools.ietf.org/html/rfc4226#appendix-D
@@ -36,8 +30,27 @@ namespace OtpSharp.Tests
             long counter = Convert.ToInt64(this.TestContext.DataRow["counter"]);
             long expectedResult = Convert.ToInt64(this.TestContext.DataRow["decimal"]);
 
-            var i = Otp.CalculateOtp(rfcTestKey, counter);
-            Assert.AreEqual(expectedResult, i);
+            Hotp hotpCalculator = new Hotp(rfcTestKey);
+            var otp = hotpCalculator.ComputeHotpDecimal(counter);
+
+            Assert.AreEqual(expectedResult, otp);
+        }
+
+        [TestMethod]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.XML",
+            "|DataDirectory|\\Rfc4226AppendixD.xml",
+            "Row",
+            DataAccessMethod.Sequential)]
+        public void HotpAppendixDTests()
+        {
+            // test values from RFC - Appendix D
+            long counter = Convert.ToInt64(this.TestContext.DataRow["counter"]);
+            long expectedResult = Convert.ToInt32(this.TestContext.DataRow["hotp"]);
+
+            Hotp hotpCalculator = new Hotp(rfcTestKey);
+            var hotp = hotpCalculator.ComputeHotp(counter);
+
+            Assert.AreEqual(expectedResult, hotp);
         }
     }
 }
