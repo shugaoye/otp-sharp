@@ -72,7 +72,7 @@ namespace OtpSharp.Tests
             byte[] key;
             GetMode((string)this.TestContext.DataRow["mode"], out mode, out key);
 
-            var totpCalculator = new Totp(key, mode: mode);
+            var totpCalculator = new Totp(key, mode: mode, totpSize: 8);
             var hotp = totpCalculator.ComputeTotp(time);
 
             Assert.AreEqual(expectedResult, hotp);

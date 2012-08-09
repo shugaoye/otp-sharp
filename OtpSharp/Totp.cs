@@ -25,11 +25,13 @@ namespace OtpSharp
         private readonly byte[] secretKey;
         private readonly int step;
         private readonly OtpHashMode hashMode;
-        public Totp(byte[] secretKey, int step = 30, OtpHashMode mode = OtpHashMode.Sha1)
+        private readonly int totpSize;
+        public Totp(byte[] secretKey, int step = 30, OtpHashMode mode = OtpHashMode.Sha1, int totpSize = 6)
         {
             this.secretKey = secretKey;
             this.step = step;
             this.hashMode = mode;
+            this.totpSize = totpSize;
         }
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace OtpSharp
             var data = this.GetBigEndianBytes(timeSteps);
 
             var otp = this.CalculateOtp(this.secretKey, data, this.hashMode);
-            return this.Digits(otp, 8);
+            return this.Digits(otp, this.totpSize);
         }
     }
 }
