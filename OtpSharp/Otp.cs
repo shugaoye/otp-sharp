@@ -51,6 +51,7 @@ namespace OtpSharp
         /// </remarks>
         protected internal byte[] GetBigEndianBytes(long input)
         {
+            // Since .net uses little endian numbers, we need to reverse the byte order.
             return BitConverter.GetBytes(input).Reverse().ToArray();
         }
 
