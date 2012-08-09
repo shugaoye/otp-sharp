@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Linq;
+using System.Security.Cryptography;
 
 namespace OtpSharp
 {
     /// <summary>
     /// Calculate Timed-One-Time-Passwords (TOTP) from a secret key
     /// </summary>
+    /// <remarks>
+    /// The specifications for this are found in RFC 6238
+    /// http://tools.ietf.org/html/rfc6238
+    /// </remarks>
     public class Totp : Otp
     {
         /// <summary>

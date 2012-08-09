@@ -4,6 +4,9 @@ using System.Security.Cryptography;
 
 namespace OtpSharp
 {
+    /// <summary>
+    /// An abstract class that contains common OTP calculations
+    /// </summary>
     /// <remarks>
     /// https://tools.ietf.org/html/rfc4226
     /// </remarks>
@@ -26,7 +29,7 @@ namespace OtpSharp
         /// <summary>
         /// Create an HMAC object for the specified algorithm
         /// </summary>
-        private HMAC CreateHmacHasher(byte[] secretKey, OtpHashMode mode )
+        private HMAC CreateHmacHasher(byte[] secretKey, OtpHashMode mode)
         {
             switch (mode)
             {
@@ -41,8 +44,11 @@ namespace OtpSharp
         }
 
         /// <summary>
-        /// converts a long into a big endian byte array
+        /// converts a long into a big endian byte array.
         /// </summary>
+        /// <remarks>
+        /// RFC 4226 specifies big endian as the method for converting the counter to data to hash.
+        /// </remarks>
         protected internal byte[] GetBigEndianBytes(long input)
         {
             return BitConverter.GetBytes(input).Reverse().ToArray();
