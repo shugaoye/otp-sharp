@@ -25,6 +25,7 @@ namespace GoogleAuthenticatorTotpTest
         private void UpdateCode()
         {
             this.labelTotp.Text = totp.ComputeTotp().ToString().PadLeft(6, '0');
+            this.labelRemaining.Text = totp.RemainingSeconds().ToString();
         }
 
         private void timerUpdate_Tick(object sender, EventArgs e)
@@ -56,7 +57,7 @@ namespace GoogleAuthenticatorTotpTest
             if (int.TryParse(text, out value))
             {
                 long windowUsed;
-                bool result = totp.VerifyTotp(value, out windowUsed);
+                bool result = totp.VerifyTotp(value, out windowUsed, new VerificationWindow(1, 0));
                 if (result)
                     this.tabPage2.BackColor = Color.Green;
                 else

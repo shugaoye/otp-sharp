@@ -126,5 +126,24 @@ namespace OtpSharp
             var window = unixTimestamp / (long)this.step;
             return window;
         }
+
+        /// <summary>
+        /// Remaining seconds in current window based on UtcNow
+        /// </summary>
+        /// <returns>Number of remaining seconds</returns>
+        public int RemainingSeconds()
+        {
+            return RemainingSeconds(DateTime.UtcNow);
+        }
+
+        /// <summary>
+        /// Remaining seconds in current window
+        /// </summary>
+        /// <param name="timestamp">The timestamp</param>
+        /// <returns>Number of remaining seconds</returns>
+        public int RemainingSeconds(DateTime timestamp)
+        {
+            return this.step - (int)(((timestamp.Ticks - unixEpochTicks) / ticksToSeconds) % this.step);
+        }
     }
 }
