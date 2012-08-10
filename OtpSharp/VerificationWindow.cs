@@ -1,0 +1,55 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace OtpSharp
+{
+    /// <summary>
+    /// A verification window
+    /// </summary>
+    public class VerificationWindow
+    {
+        private readonly int previous;
+        private readonly int future;
+
+        /// <summary>
+        /// Create an instance of a verification window
+        /// </summary>
+        /// <param name="previous">The number of previous frames to accept</param>
+        /// <param name="future">The number of future frames to accept</param>
+        public VerificationWindow(int previous, int future)
+        {
+            this.previous = previous;
+            this.future = future;
+        }
+
+        /// <summary>
+        /// Create an instance of a verification window without any roaming
+        /// </summary>
+        public VerificationWindow()
+            : this(0, 0)
+        {
+        }
+
+        /// <summary>
+        /// Gets an enumberable of all the possible validation candidates
+        /// </summary>
+        /// <param name="initialFrame">The initial frame to validate</param>
+        /// <returns>Enumberable of all possible frames that need to be validated</returns>
+        public IEnumerable<long> ValidationCandidates(long initialFrame)
+        {
+            yield return initialFrame;
+            for (int i = 1; i <= previous; i++)
+            {
+                var val = initialFrame - i;
+                if (val < 0)
+                    break;
+                yield return val;
+            }
+
+            for (int i = 1; i <= future; i++)
+                yield return initialFrame + i;
+        }
+    }
+}

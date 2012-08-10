@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OtpTests.cs" />
+    <Compile Include="VerificationWindowTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OtpSharp\OtpSharp.csproj">

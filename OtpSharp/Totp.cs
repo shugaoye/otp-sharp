@@ -62,48 +62,42 @@ namespace OtpSharp
             return this.ComputeTotp(DateTime.UtcNow);
         }
 
-#warning not sure if this is in in accordance with the RFC or not.  Need to re-read
         /// <summary>
         /// Verify a value that has been provided with the calculated value
         /// </summary>
         /// <param name="totp">the trial TOTP value</param>
         /// <param name="timeWindowUsed">This is an output parameter that gives that time window that was used to find a match.  This is usefule in cases where a TOTP value should only be used once.  This value is a unique identifier of the code slot (not the value) that can be used to prevent the same slot from being used multiple times</param>
-        /// <param name="range">The number of time windows to check both forward and backward</param>
+        /// <param name="window">The window to verify</param>
         /// <returns>True if there is a match.</returns>
-        public bool VerifyTotp(int totp, out long timeWindowUsed, int range = 1)
+        public bool VerifyTotp(int totp, out long timeWindowUsed, VerificationWindow window = null)
         {
-            return this.VerifyTotp(DateTime.UtcNow, totp, out timeWindowUsed, range);
+            return this.VerifyTotp(DateTime.UtcNow, totp, out timeWindowUsed, window);
         }
 
-#warning not sure if this is in in accordance with the RFC or not.  Need to re-read
         /// <summary>
         /// Verify a value that has been provided with the calculated value
         /// </summary>
         /// <param name="timestamp">The timestamp to use</param>
         /// <param name="totp">the trial TOTP value</param>
-        /// <param name="timeWindowUsed">This is an output parameter that gives that time window that was used to find a match.  This is usefule in cases where a TOTP value should only be used once.  This value is a unique identifier of the code slot (not the value) that can be used to prevent the same slot from being used multiple times</param>
-        /// <param name="range">The number of time windows to check both forward and backward</param>
+        /// <param name="timeWindowUsed">
+        /// This is an output parameter that gives that time window that was used to find a match.
+        /// This is usefule in cases where a TOTP value should only be used once.  This value is a unique identifier of the
+        /// code slot (not the value) that can be used to prevent the same slot from being used multiple times
+        /// </param>
+        /// <param name="window">The window to verify</param>
         /// <returns>True if there is a match.</returns>
-        public bool VerifyTotp(DateTime timestamp, int totp, out long timeWindowUsed, int range = 1)
+        public bool VerifyTotp(DateTime timestamp, int totp, out long timeWindowUsed, VerificationWindow window = null)
         {
-            var window = CalculateTimeWindowFromTimestamp(timestamp);
-            if (ComputeTotpFromTimeWindow(window) == totp)
-            {
-                timeWindowUsed = window;
-                return true;
-            }
+            if (window == null)
+                window = new VerificationWindow();
 
-            for (int i = 1; i <= range; i++)
+            var initialFrame = CalculateTimeWindowFromTimestamp(timestamp);
+            foreach (var frame in window.ValidationCandidates(initialFrame))
             {
-                if (ComputeTotpFromTimeWindow(window + i) == totp)
+                var comparisonValue = ComputeTotpFromTimeWindow(frame);
+                if (comparisonValue == totp)
                 {
-                    timeWindowUsed = window + 1;
-                    return true;
-                }
-
-                if (ComputeTotpFromTimeWindow(window - i) == totp)
-                {
-                    timeWindowUsed = window - i;
+                    timeWindowUsed = frame;
                     return true;
                 }
             }
