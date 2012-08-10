@@ -6,6 +6,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace OtpSharp.Tests
 {
+    /// <summary>
+    /// Tests to verify that the verification window works properly
+    /// </summary>
     [TestClass]
     public class VerificationWindowTests
     {

@@ -18,18 +18,10 @@ namespace OtpSharp
         /// </summary>
         /// <param name="previous">The number of previous frames to accept</param>
         /// <param name="future">The number of future frames to accept</param>
-        public VerificationWindow(int previous, int future)
+        public VerificationWindow(int previous = 0, int future = 0)
         {
             this.previous = previous;
             this.future = future;
-        }
-
-        /// <summary>
-        /// Create an instance of a verification window without any roaming
-        /// </summary>
-        public VerificationWindow()
-            : this(0, 0)
-        {
         }
 
         /// <summary>
@@ -51,5 +43,10 @@ namespace OtpSharp
             for (int i = 1; i <= future; i++)
                 yield return initialFrame + i;
         }
+
+        /// <summary>
+        /// The verification window that accomodates network delay that is recommended in the RFC
+        /// </summary>
+        public static readonly VerificationWindow RfcSpecifiedNetworkDelay = new VerificationWindow(previous: 1);
     }
 }

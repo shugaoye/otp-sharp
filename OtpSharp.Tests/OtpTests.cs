@@ -69,6 +69,7 @@ namespace OtpSharp.Tests
             // test values from RFC - Appendix D
             var time = DateTime.Parse((string)this.TestContext.DataRow["time"]);
             long expectedResult = Convert.ToInt32(this.TestContext.DataRow["totp"]);
+
             OtpHashMode mode;
             byte[] key;
             GetMode((string)this.TestContext.DataRow["mode"], out mode, out key);
