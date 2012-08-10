@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Diagnostics.Contracts;
 
 namespace OtpSharp
 {
@@ -36,6 +37,17 @@ namespace OtpSharp
         /// <param name="totpSize">The number of digits that the returning TOTP should have.  The default is 6.</param>
         public Totp(byte[] secretKey, int step = 30, OtpHashMode mode = OtpHashMode.Sha1, int totpSize = 6)
         {
+            if (!(step > 0))
+                throw new ArgumentOutOfRangeException("The step must be a non zero positive integer");
+            if (!(totpSize > 0))
+                throw new ArgumentOutOfRangeException("The totp size must be a non zero positive integer");
+            if (!(totpSize <= 10))
+                throw new ArgumentOutOfRangeException("The totp size must be no greater than 10");
+            if (!(secretKey != null))
+                throw new ArgumentNullException("A secret key must be provided");
+            if (!(secretKey.Length > 0))
+                throw new ArgumentException("The key must not be empty");
+
             this.secretKey = secretKey;
             this.step = step;
             this.hashMode = mode;
