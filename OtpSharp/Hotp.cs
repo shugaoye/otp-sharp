@@ -36,6 +36,16 @@ namespace OtpSharp
         /// </remarks>
         internal long ComputeHotpDecimal(long counter)
         {
+            return this.Compute(counter);
+        }
+
+        /// <summary>
+        /// Takes a counter and runs it through the HOTP algorithm.
+        /// </summary>
+        /// <param name="counter">Counter or step</param>
+        /// <returns>HOTP calculated code</returns>
+        protected override long Compute(long counter)
+        {
             var hashData = this.GetBigEndianBytes(counter);
             return this.CalculateOtp(this.secretKey, hashData, OtpHashMode.Sha1);
         }

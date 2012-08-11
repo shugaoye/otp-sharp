@@ -13,6 +13,13 @@ namespace OtpSharp
     public abstract class Otp
     {
         /// <summary>
+        /// An abstract definition of a compute method.  Takes a counter and runs it through the derived algorithm.
+        /// </summary>
+        /// <param name="counter">Counter or step</param>
+        /// <returns>OTP calculated code</returns>
+        protected abstract long Compute(long counter);
+
+        /// <summary>
         /// Helper method that calculates OTPs
         /// </summary>
         protected internal long CalculateOtp(byte[] secretKey, byte[] data, OtpHashMode mode)

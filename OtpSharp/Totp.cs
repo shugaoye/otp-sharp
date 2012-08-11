@@ -62,7 +62,7 @@ namespace OtpSharp
         public int ComputeTotp(DateTime timestamp)
         {
             var window = CalculateTimeWindowFromTimestamp(timestamp);
-            return ComputeTotpFromTimeWindow(window);
+            return (int)this.Compute(window);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace OtpSharp
             var initialFrame = CalculateTimeWindowFromTimestamp(timestamp);
             foreach (var frame in window.ValidationCandidates(initialFrame))
             {
-                var comparisonValue = ComputeTotpFromTimeWindow(frame);
+                var comparisonValue = this.Compute(frame);
                 if (comparisonValue == totp)
                 {
                     timeWindowUsed = frame;
@@ -116,17 +116,6 @@ namespace OtpSharp
 
             timeWindowUsed = 0;
             return false;
-        }
-
-        /// <summary>
-        /// Takes the time window and computes a TOTP
-        /// </summary>
-        private int ComputeTotpFromTimeWindow(long timeSteps)
-        {
-            var data = this.GetBigEndianBytes(timeSteps);
-
-            var otp = this.CalculateOtp(this.secretKey, data, this.hashMode);
-            return this.Digits(otp, this.totpSize);
         }
 
         /// <summary>
@@ -156,6 +145,18 @@ namespace OtpSharp
         public int RemainingSeconds(DateTime timestamp)
         {
             return this.step - (int)(((timestamp.Ticks - unixEpochTicks) / ticksToSeconds) % this.step);
+        }
+
+        /// <summary>
+        /// Takes a time step and computes a TOTP code
+        /// </summary>
+        /// <param name="counter">time step</param>
+        /// <returns>TOTP calculated code</returns>
+        protected override long Compute(long counter)
+        {
+            var data = this.GetBigEndianBytes(counter);
+            var otp = this.CalculateOtp(this.secretKey, data, this.hashMode);
+            return this.Digits(otp, this.totpSize);
         }
     }
 }
