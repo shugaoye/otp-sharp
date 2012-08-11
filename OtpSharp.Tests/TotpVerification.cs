@@ -74,7 +74,7 @@ namespace OtpSharp.Tests
             var totp = new Totp(OtpCalculationTests.rfcTestKey);
             var expected = totp.ComputeTotp(time);
             long timeStepUsed;
-            var success = totp.VerifyTotp(time, expected, out timeStepUsed, verificationWindow);
+            var success = totp.VerifyTotp(testTime, expected, out timeStepUsed, verificationWindow);
             if (shouldMatch)
                 Assert.IsTrue(success);
             else
