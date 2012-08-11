@@ -43,6 +43,7 @@
     <Compile Include="OtpHashMode.cs" />
     <Compile Include="Otp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="KeyGeneration.cs" />
     <Compile Include="Totp.cs" />
     <Compile Include="VerificationWindow.cs" />
   </ItemGroup>
