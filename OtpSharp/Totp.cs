@@ -100,22 +100,9 @@ namespace OtpSharp
         /// <returns>True if there is a match.</returns>
         public bool VerifyTotp(DateTime timestamp, int totp, out long timeWindowUsed, VerificationWindow window = null)
         {
-            if (window == null)
-                window = new VerificationWindow();
-
             var initialFrame = CalculateTimeWindowFromTimestamp(timestamp);
-            foreach (var frame in window.ValidationCandidates(initialFrame))
-            {
-                var comparisonValue = this.Compute(frame);
-                if (comparisonValue == totp)
-                {
-                    timeWindowUsed = frame;
-                    return true;
-                }
-            }
 
-            timeWindowUsed = 0;
-            return false;
+            return this.Verify(totp, window, initialFrame, out timeWindowUsed);
         }
 
         /// <summary>

@@ -69,5 +69,31 @@ namespace OtpSharp
         {
             return ((int)input % (int)Math.Pow(10, digits));
         }
+
+        /// <summary>
+        /// Verify an OTP value
+        /// </summary>
+        /// <param name="valueToVerify">The value to verify</param>
+        /// <param name="window">The window to verify</param>
+        /// <param name="initialFrame">The initial fram to try</param>
+        /// <param name="frameUsed">Thed frame that was used</param>
+        /// <returns></returns>
+        protected bool Verify(int valueToVerify, VerificationWindow window, long initialFrame, out long frameUsed)
+        {
+            if (window == null)
+                window = new VerificationWindow();
+            foreach (var frame in window.ValidationCandidates(initialFrame))
+            {
+                var comparisonValue = this.Compute(frame);
+                if (comparisonValue == valueToVerify)
+                {
+                    frameUsed = frame;
+                    return true;
+                }
+            }
+
+            frameUsed = 0;
+            return false;
+        }
     }
 }
