@@ -73,26 +73,26 @@ namespace OtpSharp
         /// <summary>
         /// Verify an OTP value
         /// </summary>
+        /// <param name="initialStep">The initial step to try</param>
         /// <param name="valueToVerify">The value to verify</param>
+        /// <param name="matchedStep">Thed step where the match was found.  If no match was found it will be 0</param>
         /// <param name="window">The window to verify</param>
-        /// <param name="initialFrame">The initial fram to try</param>
-        /// <param name="frameUsed">Thed frame that was used</param>
-        /// <returns></returns>
-        protected bool Verify(int valueToVerify, VerificationWindow window, long initialFrame, out long frameUsed)
+        /// <returns>True if a match is found</returns>
+        protected bool Verify(long initialStep, int valueToVerify, out long matchedStep, VerificationWindow window)
         {
             if (window == null)
                 window = new VerificationWindow();
-            foreach (var frame in window.ValidationCandidates(initialFrame))
+            foreach (var frame in window.ValidationCandidates(initialStep))
             {
                 var comparisonValue = this.Compute(frame);
                 if (comparisonValue == valueToVerify)
                 {
-                    frameUsed = frame;
+                    matchedStep = frame;
                     return true;
                 }
             }
 
-            frameUsed = 0;
+            matchedStep = 0;
             return false;
         }
     }

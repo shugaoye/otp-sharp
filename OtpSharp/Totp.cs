@@ -61,7 +61,7 @@ namespace OtpSharp
         /// <returns>a TOTP value</returns>
         public int ComputeTotp(DateTime timestamp)
         {
-            var window = CalculateTimeWindowFromTimestamp(timestamp);
+            var window = CalculateTimeStepFromTimestamp(timestamp);
             return (int)this.Compute(window);
         }
 
@@ -78,12 +78,16 @@ namespace OtpSharp
         /// Verify a value that has been provided with the calculated value
         /// </summary>
         /// <param name="totp">the trial TOTP value</param>
-        /// <param name="timeWindowUsed">This is an output parameter that gives that time window that was used to find a match.  This is usefule in cases where a TOTP value should only be used once.  This value is a unique identifier of the code slot (not the value) that can be used to prevent the same slot from being used multiple times</param>
-        /// <param name="window">The window to verify</param>
+        /// <param name="timeStepMatched">
+        /// This is an output parameter that gives that time step that was used to find a match.
+        /// This is usefule in cases where a TOTP value should only be used once.  This value is a unique identifier of the
+        /// time step (not the value) that can be used to prevent the same step from being used multiple times
+        /// </param>
+        /// <param name="window">The window of steps to verify</param>
         /// <returns>True if there is a match.</returns>
-        public bool VerifyTotp(int totp, out long timeWindowUsed, VerificationWindow window = null)
+        public bool VerifyTotp(int totp, out long timeStepMatched, VerificationWindow window = null)
         {
-            return this.VerifyTotp(DateTime.UtcNow, totp, out timeWindowUsed, window);
+            return this.VerifyTotp(DateTime.UtcNow, totp, out timeStepMatched, window);
         }
 
         /// <summary>
@@ -91,24 +95,23 @@ namespace OtpSharp
         /// </summary>
         /// <param name="timestamp">The timestamp to use</param>
         /// <param name="totp">the trial TOTP value</param>
-        /// <param name="timeWindowUsed">
-        /// This is an output parameter that gives that time window that was used to find a match.
+        /// <param name="timeStepMatched">
+        /// This is an output parameter that gives that time step that was used to find a match.
         /// This is usefule in cases where a TOTP value should only be used once.  This value is a unique identifier of the
-        /// code slot (not the value) that can be used to prevent the same slot from being used multiple times
+        /// time step (not the value) that can be used to prevent the same step from being used multiple times
         /// </param>
-        /// <param name="window">The window to verify</param>
+        /// <param name="window">The window of steps to verify</param>
         /// <returns>True if there is a match.</returns>
-        public bool VerifyTotp(DateTime timestamp, int totp, out long timeWindowUsed, VerificationWindow window = null)
+        public bool VerifyTotp(DateTime timestamp, int totp, out long timeStepMatched, VerificationWindow window = null)
         {
-            var initialFrame = CalculateTimeWindowFromTimestamp(timestamp);
-
-            return this.Verify(totp, window, initialFrame, out timeWindowUsed);
+            var initialStep = CalculateTimeStepFromTimestamp(timestamp);
+            return this.Verify(initialStep, totp, out timeStepMatched, window);
         }
 
         /// <summary>
-        /// Takes a timestamp and calculates a time window
+        /// Takes a timestamp and calculates a time step
         /// </summary>
-        private long CalculateTimeWindowFromTimestamp(DateTime timestamp)
+        private long CalculateTimeStepFromTimestamp(DateTime timestamp)
         {
             var unixTimestamp = (timestamp.Ticks - unixEpochTicks) / ticksToSeconds;
             var window = unixTimestamp / (long)this.step;
