@@ -39,6 +39,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base32.cs" />
     <Compile Include="Hotp.cs" />
     <Compile Include="OtpHashMode.cs" />
     <Compile Include="Otp.cs" />

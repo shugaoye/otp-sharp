@@ -2,6 +2,7 @@
 <TestSettings name="Local" id="d1074625-cce5-4a80-826a-07ac37ae211d" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Deployment>
+    <DeploymentItem filename="OtpSharp.Tests\Base32TestData.xml" />
     <DeploymentItem filename="OtpSharp.Tests\Rfc6238AppendixB.xml" />
     <DeploymentItem filename="OtpSharp.Tests\Rfc4226AppendixD.xml" />
   </Deployment>
@@ -13,7 +14,7 @@
         </AssemblyResolution>
       </UnitTestRunConfig>
     </TestTypeSpecific>
-    <AgentRule name="Execution Agents">
+    <AgentRule name="LocalMachineDefaultRole">
     </AgentRule>
   </Execution>
 </TestSettings>

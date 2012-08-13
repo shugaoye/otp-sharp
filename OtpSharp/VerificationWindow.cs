@@ -47,6 +47,6 @@ namespace OtpSharp
         /// <summary>
         /// The verification window that accomodates network delay that is recommended in the RFC
         /// </summary>
-        public static readonly VerificationWindow RfcSpecifiedNetworkDelay = new VerificationWindow(previous: 1);
+        public static readonly VerificationWindow RfcSpecifiedNetworkDelay = new VerificationWindow(previous: 1, future: 1);
     }
 }
