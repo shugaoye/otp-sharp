@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base32.cs" />
@@ -45,9 +46,11 @@
     <Compile Include="Otp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KeyGeneration.cs" />
+    <Compile Include="QRCode.cs" />
     <Compile Include="Totp.cs" />
     <Compile Include="VerificationWindow.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

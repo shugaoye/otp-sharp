@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography;
-
+﻿
 namespace OtpSharp
 {
     /// <summary>
@@ -9,14 +6,13 @@ namespace OtpSharp
     /// </summary>
     public class Hotp : Otp
     {
-        private readonly byte[] secretKey;
         /// <summary>
         /// Create an HOTP instance
         /// </summary>
         /// <param name="secretKey">The secret key to use in HOTP calculations</param>
         public Hotp(byte[] secretKey)
+            : base(secretKey)
         {
-            this.secretKey = secretKey;
         }
 
         /// <summary>
@@ -47,7 +43,12 @@ namespace OtpSharp
         protected override long Compute(long counter)
         {
             var hashData = this.GetBigEndianBytes(counter);
-            return this.CalculateOtp(this.secretKey, hashData, OtpHashMode.Sha1);
+            return this.CalculateOtp(hashData, OtpHashMode.Sha1);
         }
+
+        /// <summary>
+        /// Used in generating URLs.  HOTP
+        /// </summary>
+        protected override string OtpType { get { return "hotp"; } }
     }
 }

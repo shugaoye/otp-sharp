@@ -24,7 +24,7 @@ namespace OtpSharp
         /// </summary>
         /// <param name="mode">HashMode</param>
         /// <returns>Key</returns>
-        public static byte[] GenerateKey(OtpHashMode mode)
+        public static byte[] GenerateKey(OtpHashMode mode = OtpHashMode.Sha1)
         {
             return GenerateKey(LengthForMode(mode));
         }

@@ -20,7 +20,6 @@ namespace OtpSharp
         /// </summary>
         const long ticksToSeconds = 10000000L;
 
-        private readonly byte[] secretKey;
         private readonly int step;
         private readonly OtpHashMode hashMode;
         private readonly int totpSize;
@@ -33,6 +32,7 @@ namespace OtpSharp
         /// <param name="mode">The hash mode to use</param>
         /// <param name="totpSize">The number of digits that the returning TOTP should have.  The default is 6.</param>
         public Totp(byte[] secretKey, int step = 30, OtpHashMode mode = OtpHashMode.Sha1, int totpSize = 6)
+            :base(secretKey)
         {
             if (!(step > 0))
                 throw new ArgumentOutOfRangeException("The step must be a non zero positive integer");
@@ -40,12 +40,7 @@ namespace OtpSharp
                 throw new ArgumentOutOfRangeException("The totp size must be a non zero positive integer");
             if (!(totpSize <= 10))
                 throw new ArgumentOutOfRangeException("The totp size must be no greater than 10");
-            if (!(secretKey != null))
-                throw new ArgumentNullException("A secret key must be provided");
-            if (!(secretKey.Length > 0))
-                throw new ArgumentException("The key must not be empty");
 
-            this.secretKey = secretKey;
             this.step = step;
             this.hashMode = mode;
             this.totpSize = totpSize;
@@ -142,8 +137,13 @@ namespace OtpSharp
         protected override long Compute(long counter)
         {
             var data = this.GetBigEndianBytes(counter);
-            var otp = this.CalculateOtp(this.secretKey, data, this.hashMode);
+            var otp = this.CalculateOtp(data, this.hashMode);
             return this.Digits(otp, this.totpSize);
         }
+
+        /// <summary>
+        /// Used in generating URLs.  TOTP
+        /// </summary>
+        protected override string OtpType { get { return "totp"; } }
     }
 }

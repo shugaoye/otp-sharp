@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Web;
 
 namespace OtpSharp
 {
@@ -13,6 +14,25 @@ namespace OtpSharp
     public abstract class Otp
     {
         /// <summary>
+        /// Secret key
+        /// </summary>
+        protected readonly byte[] secretKey;
+
+        /// <summary>
+        /// Constructor for the abstract class.  This is to guarantee that all implementations have a secret key
+        /// </summary>
+        /// <param name="secretKey"></param>
+        public Otp(byte[] secretKey)
+        {
+            if (!(secretKey != null))
+                throw new ArgumentNullException("A secret key must be provided");
+            if (!(secretKey.Length > 0))
+                throw new ArgumentException("The key must not be empty");
+
+            this.secretKey = secretKey;
+        }
+
+        /// <summary>
         /// An abstract definition of a compute method.  Takes a counter and runs it through the derived algorithm.
         /// </summary>
         /// <param name="counter">Counter or step</param>
@@ -22,7 +42,7 @@ namespace OtpSharp
         /// <summary>
         /// Helper method that calculates OTPs
         /// </summary>
-        protected internal long CalculateOtp(byte[] secretKey, byte[] data, OtpHashMode mode)
+        protected internal long CalculateOtp(byte[] data, OtpHashMode mode)
         {
             var hmacHasher = CreateHmacHasher(secretKey, mode);
             byte[] hmacComputedHash = hmacHasher.ComputeHash(data);
@@ -97,5 +117,24 @@ namespace OtpSharp
             matchedStep = 0;
             return false;
         }
+
+        /// <summary>
+        /// Gets a URL that conforms to the de-facto standard
+        /// created and used by Google
+        /// </summary>
+        public Uri GetKeyUrl(string user)
+        {
+            Uri uri = new Uri(string.Format("otpauth://{0}/{1}?", this.OtpType, HttpUtility.UrlEncode(user)));
+
+
+            return uri;
+        }
+
+        /// <summary>
+        /// Used in generating URLs
+        /// </summary>
+        protected abstract string OtpType { get; }
+
+        //protected abstract NameValueCollection UrlParameters
     }
 }
