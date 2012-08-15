@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using OtpSharp;
+using System.Web;
 
 namespace GoogleAuthenticatorTotpTest
 {
@@ -27,6 +28,11 @@ namespace GoogleAuthenticatorTotpTest
         private void ResetTotp()
         {
             this.totp = new Totp(rfcKey, this.stepSize, totpSize: this.digits);
+            var name = this.textBoxKeyLabel.Text;
+            if (string.IsNullOrWhiteSpace(name))
+                name = "OtpSharp@test.com";
+
+            this.pictureBox1.ImageLocation = string.Format("http://qrcode.kaywa.com/img.php?s=4&d={0}", HttpUtility.UrlEncode(totp.GetKeyUrl(name)));
         }
 
 

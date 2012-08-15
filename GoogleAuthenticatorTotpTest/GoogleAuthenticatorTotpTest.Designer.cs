@@ -46,6 +46,7 @@
             this.labelSize = new System.Windows.Forms.Label();
             this.radioButtonSix = new System.Windows.Forms.RadioButton();
             this.radioButtonEight = new System.Windows.Forms.RadioButton();
+            this.labelWarning = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -80,7 +81,7 @@
             // 
             this.labelDescription.Location = new System.Drawing.Point(9, 9);
             this.labelDescription.Name = "labelDescription";
-            this.labelDescription.Size = new System.Drawing.Size(407, 43);
+            this.labelDescription.Size = new System.Drawing.Size(407, 30);
             this.labelDescription.TabIndex = 2;
             this.labelDescription.Text = "Download the Google Authenticator app to your smartphone and scan the QR code to " +
     "demonstrate the OtpSharp TOTP implementation.";
@@ -214,11 +215,21 @@
             this.radioButtonEight.UseVisualStyleBackColor = true;
             this.radioButtonEight.CheckedChanged += new System.EventHandler(this.radioButtonEight_CheckedChanged);
             // 
+            // labelWarning
+            // 
+            this.labelWarning.Location = new System.Drawing.Point(19, 51);
+            this.labelWarning.Name = "labelWarning";
+            this.labelWarning.Size = new System.Drawing.Size(401, 26);
+            this.labelWarning.TabIndex = 11;
+            this.labelWarning.Text = "Warning.  The Google Authenticator doesn\'t currently support anything except thir" +
+    "ty second, six digit codes.  Other third party apps may however.\r\n";
+            // 
             // GoogleAuthenticatorTotpTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(432, 538);
+            this.Controls.Add(this.labelWarning);
             this.Controls.Add(this.radioButtonEight);
             this.Controls.Add(this.radioButtonSix);
             this.Controls.Add(this.labelSize);
@@ -261,6 +272,7 @@
         private System.Windows.Forms.Label labelSize;
         private System.Windows.Forms.RadioButton radioButtonSix;
         private System.Windows.Forms.RadioButton radioButtonEight;
+        private System.Windows.Forms.Label labelWarning;
     }
 }
 

@@ -160,6 +160,9 @@ namespace OtpSharp
             if (this.hashMode != OtpHashMode.Sha1)
                 url += string.Format("&algorithm={0}", this.hashMode);
 
+            if (this.step != 30)
+                url += string.Format("&period={0}", this.step);
+
             if (this.totpSize != 6)
             {
                 if (this.totpSize == 8)
