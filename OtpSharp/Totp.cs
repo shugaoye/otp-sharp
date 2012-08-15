@@ -32,7 +32,7 @@ namespace OtpSharp
         /// <param name="mode">The hash mode to use</param>
         /// <param name="totpSize">The number of digits that the returning TOTP should have.  The default is 6.</param>
         public Totp(byte[] secretKey, int step = 30, OtpHashMode mode = OtpHashMode.Sha1, int totpSize = 6)
-            :base(secretKey)
+            : base(secretKey)
         {
             if (!(step > 0))
                 throw new ArgumentOutOfRangeException("The step must be a non zero positive integer");
@@ -145,5 +145,30 @@ namespace OtpSharp
         /// Used in generating URLs.  TOTP
         /// </summary>
         protected override string OtpType { get { return "totp"; } }
+
+        /// <summary>
+        /// Gets a URL that conforms to the de-facto standard
+        /// created and used by Google
+        /// </summary>
+        public string GetKeyUrl(string user)
+        {
+            if (string.IsNullOrWhiteSpace(user))
+                throw new ArgumentNullException("The user must be provided");
+
+            var url = this.GetBaseKeyUrl(user);
+
+            if (this.hashMode != OtpHashMode.Sha1)
+                url += string.Format("&algorithm={0}", this.hashMode);
+
+            if (this.totpSize != 6)
+            {
+                if (this.totpSize == 8)
+                    url += "&digits=8";
+                else
+                    throw new ArgumentException("The URL format doesn't allow for a digit size other than 8 or 6");
+            }
+
+            return url;
+        }
     }
 }

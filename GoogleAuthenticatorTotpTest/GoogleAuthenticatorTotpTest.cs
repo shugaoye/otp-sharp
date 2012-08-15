@@ -12,19 +12,27 @@ namespace GoogleAuthenticatorTotpTest
 {
     public partial class GoogleAuthenticatorTotpTest : Form
     {
+        static readonly byte[] rfcKey = new byte[] { 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30 };
         /// <summary>
         /// The test key provided in the RFC
         /// </summary>
-        static readonly Totp totp = new Totp(new byte[] { 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30 });
+        Totp totp = new Totp(rfcKey);
+
         public GoogleAuthenticatorTotpTest()
         {
             InitializeComponent();
             this.UpdateCode();
         }
 
+        private void ResetTotp()
+        {
+            this.totp = new Totp(rfcKey, this.stepSize, totpSize: this.digits);
+        }
+
+
         private void UpdateCode()
         {
-            this.labelTotp.Text = totp.ComputeTotp().ToString().PadLeft(6, '0');
+            this.labelTotp.Text = totp.ComputeTotp().ToString().PadLeft(this.digits, '0');
             this.labelRemaining.Text = totp.RemainingSeconds().ToString();
         }
 
@@ -63,6 +71,62 @@ namespace GoogleAuthenticatorTotpTest
                 else
                     this.tabPage2.BackColor = Color.Red;
             }
+        }
+
+        private int stepSize
+        {
+            get
+            {
+                int val;
+                if (int.TryParse(this.textBoxPeriod.Text, out val))
+                {
+                    if (val <= 0)
+                    {
+                        this.textBoxPeriod.Text = "30";
+                        val = 30;
+                    }
+                }
+                else
+                {
+                    this.textBoxPeriod.Text = "30";
+                    val = 30;
+                }
+
+                return val;
+            }
+        }
+
+        private int digits
+        {
+            get
+            {
+                if (this.radioButtonSix.Checked)
+                    return 6;
+                else if (this.radioButtonEight.Checked)
+                    return 8;
+                else
+                    return 6;
+            }
+        }
+
+        private void textBoxKeyLabel_TextChanged(object sender, EventArgs e)
+        {
+            this.ResetTotp();
+        }
+
+        private void textBoxPeriod_TextChanged(object sender, EventArgs e)
+        {
+            this.ResetTotp();
+        }
+
+        private void radioButtonSix_CheckedChanged(object sender, EventArgs e)
+        {
+            this.ResetTotp();
+        }
+
+        private void radioButtonEight_CheckedChanged(object sender, EventArgs e)
+        {
+            this.ResetTotp();
         }
     }
 }

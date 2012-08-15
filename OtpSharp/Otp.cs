@@ -122,19 +122,14 @@ namespace OtpSharp
         /// Gets a URL that conforms to the de-facto standard
         /// created and used by Google
         /// </summary>
-        public Uri GetKeyUrl(string user)
+        protected string GetBaseKeyUrl(string user)
         {
-            Uri uri = new Uri(string.Format("otpauth://{0}/{1}?", this.OtpType, HttpUtility.UrlEncode(user)));
-
-
-            return uri;
+            return string.Format("otpauth://{0}/{1}?secret={2}", this.OtpType, HttpUtility.UrlEncode(user), Base32.Encode(this.secretKey));
         }
 
         /// <summary>
         /// Used in generating URLs
         /// </summary>
         protected abstract string OtpType { get; }
-
-        //protected abstract NameValueCollection UrlParameters
     }
 }
