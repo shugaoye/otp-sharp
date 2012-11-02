@@ -1,0 +1,56 @@
+﻿<!--
+Test data from the test value table in RFC 4226 Appendix D
+http://tools.ietf.org/html/rfc4226#appendix-D
+-->
+<Rows>
+  <Row>
+    <counter>0</counter>
+    <decimal>1284755224</decimal>
+    <hotp>755224</hotp>
+  </Row>
+  <Row>
+    <counter>1</counter>
+    <decimal>1094287082</decimal>
+    <hotp>287082</hotp>
+  </Row>
+  <Row>
+    <counter>2</counter>
+    <decimal>137359152</decimal>
+    <hotp>359152</hotp>
+  </Row>
+  <Row>
+    <counter>3</counter>
+    <decimal>1726969429</decimal>
+    <hotp>969429</hotp>
+  </Row>
+  <Row>
+    <counter>4</counter>
+    <decimal>1640338314</decimal>
+    <hotp>338314</hotp>
+  </Row>
+  <Row>
+    <counter>5</counter>
+    <decimal>868254676</decimal>
+    <hotp>254676</hotp>
+  </Row>
+  <Row>
+    <counter>6</counter>
+    <decimal>1918287922</decimal>
+    <hotp>287922</hotp>
+  </Row>
+  <Row>
+    <counter>7</counter>
+    <decimal>82162583</decimal>
+    <hotp>162583</hotp>
+  </Row>
+  <Row>
+    <counter>8</counter>
+    <decimal>673399871</decimal>
+    <hotp>399871</hotp>
+  </Row>
+  <Row>
+    <counter>9</counter>
+    <decimal>645520489</decimal>
+    <hotp>520489</hotp>
+  </Row>
+</Rows>
